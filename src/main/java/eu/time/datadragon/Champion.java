@@ -1,4 +1,4 @@
-package datadragon;
+package eu.time.datadragon;
 
 import java.util.List;
 
@@ -14,5 +14,4 @@ public class Champion {
     public List<String> tags;
     public String partype;
     public Stats stats;
-    
 }

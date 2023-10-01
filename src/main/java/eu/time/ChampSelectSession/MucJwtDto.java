@@ -1,4 +1,4 @@
-package ChampSelectSession;
+package eu.time.ChampSelectSession;
 
 public class MucJwtDto {
     public String channelClaim;

@@ -1,4 +1,4 @@
-package ChampSelectSession;
+package eu.time.ChampSelectSession;
 
 import java.util.List;
 

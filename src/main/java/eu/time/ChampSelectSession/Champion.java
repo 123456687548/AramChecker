@@ -1,4 +1,10 @@
-package ChampSelectSession;
+package eu.time.ChampSelectSession;
+
+import static org.fusesource.jansi.Ansi.ansi;
+
+import java.util.Objects;
+
+import eu.time.lolwiki.AramChange;
 
 public class Champion {
     public int championId;
@@ -32,5 +38,34 @@ public class Champion {
 
     private static String getChampionName(int championId) {
         return "";
+    }
+
+    public void printInfo(AramChange aramChange) {
+        String availability = "NO AVAILABILITY?!";
+        if (isSelected) {
+            availability = "SELECTED";
+        } else if (isBenched) {
+            availability = "BENCHED";
+        } else if (isTeamSelected) {
+            availability = "TRADE";
+        }
+        System.out.println(ansi().render(String.format("%s | %s : %n%s%n", availability, aramChange.name, aramChange)));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Champion champion = (Champion) o;
+        return championId == champion.championId && isBenched == champion.isBenched && isSelected == champion.isSelected && isTeamSelected == champion.isTeamSelected;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(championId, isBenched, isSelected, isTeamSelected);
     }
 }

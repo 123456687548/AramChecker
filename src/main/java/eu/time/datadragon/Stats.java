@@ -1,4 +1,4 @@
-package datadragon;
+package eu.time.datadragon;
 
 public class Stats {
     public int hp;

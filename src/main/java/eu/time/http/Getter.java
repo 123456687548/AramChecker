@@ -1,4 +1,4 @@
-package http;
+package eu.time.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;

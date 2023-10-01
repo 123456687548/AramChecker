@@ -1,4 +1,4 @@
-package ChampSelectSession;
+package eu.time.ChampSelectSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,9 @@ public class Session {
         }
 
         myTeam.forEach(team -> {
-            if (me.puuid.equals(team.puuid)) {
+            if(team.championId == 0) return;
+            
+            if (me.summonerId.equals(team.summonerId)) {
                 result.add(Champion.createSelected(team.championId));
             } else {
                 result.add(Champion.createTeamSelected(team.championId));

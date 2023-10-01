@@ -1,9 +1,9 @@
-package datadragon;
+package eu.time.datadragon;
 
 import java.io.IOException;
 import java.util.Map;
 
-import http.Getter;
+import eu.time.http.Getter;
 
 public class DataDragonHandler {
     private static final String VERSION_JSON_URL = "https://ddragon.leagueoflegends.com/api/versions.json";

@@ -1,13 +1,12 @@
-package lcu;
+package eu.time.lcu;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import com.stirante.lolclient.ApiResponse;
 import com.stirante.lolclient.ClientApi;
 import com.stirante.lolclient.ClientConnectionListener;
 
-import ChampSelectSession.Session;
+import eu.time.ChampSelectSession.Session;
 import generated.LolSummonerSummoner;
 
 public class LCUHandler {
@@ -32,7 +31,7 @@ public class LCUHandler {
             return null;
         }
 
-        System.out.printf("%s : %s%n", LocalDateTime.now(), sessionResponse.getRawResponse());
+//        System.out.printf("%s : %s%n", LocalDateTime.now(), sessionResponse.getRawResponse());
 
         return sessionResponse.getResponseObject();
     }
@@ -57,6 +56,7 @@ public class LCUHandler {
                         }
                         loadMe();
                         ready = true;
+                        System.out.println("logged in!");
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }

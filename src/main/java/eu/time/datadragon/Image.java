@@ -1,4 +1,4 @@
-package datadragon;
+package eu.time.datadragon;
 
 public class Image {
     public String full;
