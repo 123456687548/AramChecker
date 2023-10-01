@@ -8,11 +8,13 @@ import com.stirante.lolclient.ClientApi;
 import com.stirante.lolclient.ClientConnectionListener;
 
 import ChampSelectSession.Session;
+import generated.LolSummonerSummoner;
 
 public class LCUHandler {
     private final ClientApi api;
-
     private boolean ready = false;
+
+    private LolSummonerSummoner me;
 
     public LCUHandler() {
         this.api = new ClientApi();
@@ -25,14 +27,22 @@ public class LCUHandler {
         }
 
         ApiResponse<Session> sessionResponse = api.executeGet("/lol-champ-select/v1/session", Session.class);
-        
-        if(!sessionResponse.isOk()){
+
+        if (!sessionResponse.isOk()) {
             return null;
         }
 
         System.out.printf("%s : %s%n", LocalDateTime.now(), sessionResponse.getRawResponse());
 
         return sessionResponse.getResponseObject();
+    }
+
+    public LolSummonerSummoner getMe() {
+        return me;
+    }
+
+    private void loadMe() throws IOException {
+        me = api.executeGet("/lol-summoner/v1/current-summoner", LolSummonerSummoner.class).getResponseObject();
     }
 
     private void registerListener() {
@@ -45,6 +55,7 @@ public class LCUHandler {
                             System.out.println("Not logged in!");
                             Thread.sleep(1000);
                         }
+                        loadMe();
                         ready = true;
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();

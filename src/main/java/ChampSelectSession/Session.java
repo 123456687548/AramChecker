@@ -1,6 +1,9 @@
 package ChampSelectSession;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import generated.LolSummonerSummoner;
 
 public class Session {
     public List<Object> actions;
@@ -10,7 +13,7 @@ public class Session {
     public boolean allowRerolling;
     public boolean allowSkinSelection;
     public Bans bans;
-    public List<Object> benchChampions;
+    public List<BenchChampion> benchChampions;
     public boolean benchEnabled;
     public int boostableSkinCount;
     public ChatDetails chatDetails;
@@ -23,12 +26,30 @@ public class Session {
     public boolean isSpectating;
     public int localPlayerCellId;
     public int lockedEventIndex;
-    public List<MyTeam> myTeam;
+    public List<Team> myTeam;
     public List<Object> pickOrderSwaps;
     public int recoveryCounter;
     public int rerollsRemaining;
     public boolean skipChampionSelect;
-    public List<Object> theirTeam;
+    public List<Team> theirTeam;
     public Timer timer;
-    public List<Object> trades;
+    public List<Trade> trades;
+
+    public List<Champion> getAvailableChampions(LolSummonerSummoner me) {
+        List<Champion> result = new ArrayList<>();
+
+        if (benchEnabled) {
+            benchChampions.forEach(champ -> result.add(Champion.createBenched(champ.championId)));
+        }
+
+        myTeam.forEach(team -> {
+            if (me.puuid.equals(team.puuid)) {
+                result.add(Champion.createSelected(team.championId));
+            } else {
+                result.add(Champion.createTeamSelected(team.championId));
+            }
+        });
+
+        return result;
+    }
 }

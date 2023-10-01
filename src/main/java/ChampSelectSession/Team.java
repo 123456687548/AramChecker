@@ -1,6 +1,6 @@
 package ChampSelectSession;
 
-public class MyTeam {
+public class Team {
     public String assignedPosition;
     public int cellId;
     public int championId;

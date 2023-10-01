@@ -1,7 +1,7 @@
 import java.io.IOException;
+import java.util.List;
 
-import com.stirante.lolclient.libs.com.google.gson.Gson;
-
+import ChampSelectSession.Champion;
 import ChampSelectSession.Session;
 import lcu.LCUHandler;
 
@@ -13,6 +13,7 @@ public class Main {
             Session session = lcuHandler.getSession();
 
             if (session != null) {
+                List<Champion> availableChampions = session.getAvailableChampions(lcuHandler.getMe());
                 System.out.printf("");
             }
 
