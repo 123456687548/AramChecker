@@ -32,7 +32,7 @@ public class Parser {
 
     private AramChange getNextAramChange() {
         String currentChampionName = null;
-        double currentChampionId = -1;
+        Double currentChampionId = null;
         AramChange aramChange = new AramChange();
 
         while (true) {
@@ -45,8 +45,12 @@ public class Parser {
             if (peek instanceof Token.TString tString) {
                 switch (tString.value) {
                     case "id" -> {
-                        currentChampionId = handleChampionId();
-                        aramChange.id = currentChampionId;
+                        if (currentChampionId == null) {
+                            currentChampionId = handleChampionId();
+                            aramChange.id = currentChampionId;
+                        } else {
+                            return aramChange;
+                        }
                     }
                     case "apiname" -> {
                         if (currentChampionName == null) {
