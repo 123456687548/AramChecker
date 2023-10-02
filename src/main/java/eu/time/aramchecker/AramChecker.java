@@ -18,7 +18,7 @@ import eu.time.aramchecker.console.PrintAbleChampion;
 import eu.time.aramchecker.lolwiki.LoLWikiHandler;
 
 public class AramChecker {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         AnsiConsole.systemInstall();
         LCUHandler lcuHandler = new LCUHandler();
         LoLWikiHandler loLWikiHandler = new LoLWikiHandler();
@@ -29,33 +29,41 @@ public class AramChecker {
         boolean needClear = false;
 
         while (true) {
+            if (!lcuHandler.isReady()) {
+                System.out.print("\rWaiting for League of Legends to start...");
+                Thread.sleep(2000);
+                continue;
+            }
+
             Session session = lcuHandler.getSession();
 
-            if (session != null) {
-
-                List<Champion> availableChampions = session.getAvailableChampions(lcuHandler.getMe());
-                List<PrintAbleChampion> printAbleChampions = new ArrayList<>();
-
-                if (!lastAvailableChampions.containsAll(availableChampions)) {
-                    clearConsole();
-                    for (Champion availableChampion : availableChampions) {
-                        AramChange aramChange = aramChanges.get((double) availableChampion.championId);
-                        printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
-                    }
-                    consoleHandler.print(printAbleChampions);
-                }
-
-                lastAvailableChampions = availableChampions;
-                needClear = true;
-            } else {
+            if (session == null || !session.benchEnabled) {
                 lastAvailableChampions = new ArrayList<>();
                 if (needClear) {
                     clearConsole();
                     needClear = false;
                 }
+                System.out.print("\rWaiting for Aram Champ select...");
+                Thread.sleep(2000);
+                continue;
             }
 
-            Thread.sleep(2000);
+            List<Champion> availableChampions = session.getAvailableChampions(lcuHandler.getMe());
+            List<PrintAbleChampion> printAbleChampions = new ArrayList<>();
+
+            if (!lastAvailableChampions.containsAll(availableChampions)) {
+                clearConsole();
+                for (Champion availableChampion : availableChampions) {
+                    AramChange aramChange = aramChanges.get((double) availableChampion.championId);
+                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
+                }
+                consoleHandler.print(printAbleChampions);
+            }
+
+            lastAvailableChampions = availableChampions;
+            needClear = true;
+            
+            Thread.sleep(1000);
         }
     }
 

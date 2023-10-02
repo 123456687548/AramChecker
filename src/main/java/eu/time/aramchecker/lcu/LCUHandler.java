@@ -20,20 +20,21 @@ public class LCUHandler {
         registerListener();
     }
 
-    public Session getSession() throws IOException {
+    public Session getSession() {
         if (!ready) {
             return null;
         }
 
-        ApiResponse<Session> sessionResponse = api.executeGet("/lol-champ-select/v1/session", Session.class);
+        try {
+            ApiResponse<Session> sessionResponse = api.executeGet("/lol-champ-select/v1/session", Session.class);
+            if (!sessionResponse.isOk()) {
+                return null;
+            }
 
-        if (!sessionResponse.isOk()) {
+            return sessionResponse.getResponseObject();
+        } catch (IOException e) {
             return null;
         }
-
-//        System.out.printf("%s : %s%n", LocalDateTime.now(), sessionResponse.getRawResponse());
-
-        return sessionResponse.getResponseObject();
     }
 
     public LolSummonerSummoner getMe() {
@@ -51,22 +52,27 @@ public class LCUHandler {
                 while (!ready) {
                     try {
                         if (!api.isAuthorized()) {
-                            System.out.println("Not logged in!");
+                            System.out.println("\nLogging in...");
                             Thread.sleep(1000);
                         }
                         loadMe();
                         ready = true;
-                        System.out.println("logged in!");
+                        System.out.println("\nLogged in!");
                     } catch (IOException | InterruptedException e) {
-                        e.printStackTrace();
+                        //                        e.printStackTrace();
                     }
                 }
             }
 
             @Override
             public void onClientDisconnected() {
-                //                api.stop();
+                ready = false;
+                System.out.println("\nDisconnected!");
             }
         });
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 }
