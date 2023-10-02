@@ -39,3 +39,5 @@ build/
 
 .idea
 /dragontail-13.19.1
+*.json
+*.txt
