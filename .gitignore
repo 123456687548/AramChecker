@@ -41,3 +41,6 @@ build/
 /dragontail-13.19.1
 *.json
 *.txt
+out
+AramChecker
+AramChecker.rar
