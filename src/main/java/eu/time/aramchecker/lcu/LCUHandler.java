@@ -38,11 +38,21 @@ public class LCUHandler {
     }
 
     public LolSummonerSummoner getMe() {
+        if (me == null) {
+            loadMe();
+        }
+
         return me;
     }
 
-    private void loadMe() throws IOException {
-        me = api.executeGet("/lol-summoner/v1/current-summoner", LolSummonerSummoner.class).getResponseObject();
+    private void loadMe() {
+        if (me == null) {
+            try {
+                me = api.executeGet("/lol-summoner/v1/current-summoner", LolSummonerSummoner.class).getResponseObject();
+            } catch (IOException e) {
+                
+            }
+        }
     }
 
     private void registerListener() {
@@ -67,6 +77,7 @@ public class LCUHandler {
             @Override
             public void onClientDisconnected() {
                 ready = false;
+                me = null;
                 System.out.println("\nDisconnected!");
             }
         });

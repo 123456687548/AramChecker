@@ -13,6 +13,7 @@ import eu.time.aramchecker.lcu.LCUHandler;
 import eu.time.aramchecker.lolwiki.AramChange;
 import eu.time.aramchecker.console.PrintAbleChampion;
 import eu.time.aramchecker.lolwiki.LoLWikiHandler;
+import generated.LolSummonerSummoner;
 
 public class AramChecker {
     public static void main(String[] args) throws InterruptedException {
@@ -45,7 +46,15 @@ public class AramChecker {
                 continue;
             }
 
-            List<Champion> availableChampions = session.getAvailableChampions(lcuHandler.getMe());
+            LolSummonerSummoner me = lcuHandler.getMe();
+            
+            if(me == null){
+                System.out.println("\nCan't find own Summoner Profile... Retrying");
+                Thread.sleep(2000);
+                continue;
+            }
+            
+            List<Champion> availableChampions = session.getAvailableChampions(me);
             List<PrintAbleChampion> printAbleChampions = new ArrayList<>();
 
             if (!lastAvailableChampions.containsAll(availableChampions)) {
