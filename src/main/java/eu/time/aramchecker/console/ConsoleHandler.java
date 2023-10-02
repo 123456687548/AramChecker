@@ -12,11 +12,13 @@ public class ConsoleHandler {
 
     public void print(List<PrintAbleChampion> toPrint) {
         boolean firstLine = true;
-        
+
         while (!toPrint.isEmpty()) {
             List<PrintAbleChampion> printBatch = getNextBatchToPrint(toPrint);
             int lineCount = getRequiredLineCount(printBatch);
             StringBuilder[] lineBuilders = createLineBuilder(lineCount);
+
+            int columns = 0;
 
             for (PrintAbleChampion printAbleChampion : printBatch) {
                 String printString = printAbleChampion.getPrintString();
@@ -25,14 +27,15 @@ public class ConsoleHandler {
                 for (int i = 0; i < lineCount; i++) {
                     lineBuilders[i].append("|   ").append(lines[i]);
                 }
+                columns++;
             }
 
             int maxLineLength = getMinLineLength(lineBuilders);
 
             StringBuilder topBottomBorder = new StringBuilder(maxLineLength);
-            topBottomBorder.append(String.join("", Collections.nCopies(maxLineLength+1, "-")));
-            
-            if(firstLine) {
+            topBottomBorder.append(String.join("", Collections.nCopies(31 * columns - columns + 1, "-")));
+
+            if (firstLine) {
                 System.out.println(topBottomBorder);
                 firstLine = false;
             }
@@ -90,6 +93,6 @@ public class ConsoleHandler {
     }
 
     public void clearConsole() {
-        System.out.print(ansi().eraseScreen().cursor(1,1));
+        System.out.print(ansi().eraseScreen().cursor(1, 1));
     }
 }

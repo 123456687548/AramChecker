@@ -35,7 +35,7 @@ public class AramChecker {
 
             Session session = lcuHandler.getSession();
 
-            if (session == null || !session.benchEnabled) {
+            if (session == null /*|| !session.benchEnabled*/) {
                 lastAvailableChampions = new ArrayList<>();
                 if (needClear) {
                     consoleHandler.clearConsole();
@@ -61,6 +61,11 @@ public class AramChecker {
                 consoleHandler.clearConsole();
                 for (Champion availableChampion : availableChampions) {
                     AramChange aramChange = aramChanges.get((double) availableChampion.championId);
+                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
+                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
+                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
+                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
+                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
                     printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
                 }
                 consoleHandler.print(printAbleChampions);

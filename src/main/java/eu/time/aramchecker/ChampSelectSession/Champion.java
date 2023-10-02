@@ -44,14 +44,14 @@ public class Champion {
         String availability = "NO AVAILABILITY?!";
         
         if (isSelected) {
-            availability = "SELECTED";
+            availability = String.format("@|green %-10s|@", "SELECTED");
         } else if (isBenched) {
-            availability = "BENCHED";
+            availability = String.format("@|yellow %-10s|@", "BENCHED");
         } else if (isTeamSelected) {
-            availability = "TRADE";
+            availability = String.format("@|red %-10s|@","TRADE");
         }
 
-        return ansi().render(String.format("%-14s %-10s %n%s%n",aramChange.getName(), availability , aramChange)).toString();
+        return ansi().render(String.format("%-14s %s %n%s%n",aramChange.getName(), availability , aramChange)).toString();
     }
 
     @Override
