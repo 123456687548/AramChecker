@@ -62,11 +62,6 @@ public class AramChecker {
                 for (Champion availableChampion : availableChampions) {
                     AramChange aramChange = aramChanges.get((double) availableChampion.championId);
                     printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
-                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
-                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
-                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
-                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
-                    printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
                 }
                 consoleHandler.print(printAbleChampions);
             }
