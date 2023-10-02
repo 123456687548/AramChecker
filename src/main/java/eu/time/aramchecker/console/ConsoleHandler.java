@@ -1,5 +1,7 @@
 package eu.time.aramchecker.console;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -78,44 +80,7 @@ public class ConsoleHandler {
         return lineBuilders;
     }
 
-    /*
-    public static void main(String[] args) {
-        List<PrintAbleChampion> printAbleChampions = new ArrayList<>();
-
-        Champion champion = Champion.createSelected(1);
-        AramChange aramChange = new AramChange();
-        aramChange.name = "Annie";
-        aramChange.id = 1.;
-        aramChange.ability_haste = 1.;
-        aramChange.dmg_dealt = 1.;
-        aramChange.dmg_taken = 1.;
-        aramChange.healing = 1.;
-        aramChange.shielding = 1.;
-        aramChange.tenacity = 1.;
-        aramChange.energy_regen = 1.;
-        aramChange.attack_speed = 1.;
-        PrintAbleChampion printAbleChampion = new PrintAbleChampion(champion, aramChange);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-        printAbleChampions.add(printAbleChampion);
-
-        ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.print(printAbleChampions);
+    public void clearConsole() {
+        System.out.print(ansi().eraseScreen().cursor(1,1));
     }
-    
-     */
 }

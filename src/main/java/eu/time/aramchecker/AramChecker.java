@@ -1,8 +1,5 @@
 package eu.time.aramchecker;
 
-import static org.fusesource.jansi.Ansi.ansi;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +37,7 @@ public class AramChecker {
             if (session == null || !session.benchEnabled) {
                 lastAvailableChampions = new ArrayList<>();
                 if (needClear) {
-                    clearConsole();
+                    consoleHandler.clearConsole();
                     needClear = false;
                 }
                 System.out.print("\rWaiting for Aram Champ select...");
@@ -52,7 +49,7 @@ public class AramChecker {
             List<PrintAbleChampion> printAbleChampions = new ArrayList<>();
 
             if (!lastAvailableChampions.containsAll(availableChampions)) {
-                clearConsole();
+                consoleHandler.clearConsole();
                 for (Champion availableChampion : availableChampions) {
                     AramChange aramChange = aramChanges.get((double) availableChampion.championId);
                     printAbleChampions.add(new PrintAbleChampion(availableChampion, aramChange));
@@ -65,9 +62,5 @@ public class AramChecker {
             
             Thread.sleep(1000);
         }
-    }
-
-    private static void clearConsole() {
-        System.out.println(ansi().eraseScreen());
     }
 }
