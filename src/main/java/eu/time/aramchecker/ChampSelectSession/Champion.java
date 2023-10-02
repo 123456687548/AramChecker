@@ -39,21 +39,10 @@ public class Champion {
     private static String getChampionName(int championId) {
         return "";
     }
-
-    public void printInfo(AramChange aramChange) {
-        String availability = "NO AVAILABILITY?!";
-        if (isSelected) {
-            availability = "SELECTED";
-        } else if (isBenched) {
-            availability = "BENCHED";
-        } else if (isTeamSelected) {
-            availability = "TRADE";
-        }
-        System.out.println(ansi().render(String.format("%s | %s : %n%s%n", availability, aramChange.name, aramChange)));
-    }
-
+    
     public String getPrintString(AramChange aramChange) {
         String availability = "NO AVAILABILITY?!";
+        
         if (isSelected) {
             availability = "SELECTED";
         } else if (isBenched) {
@@ -61,8 +50,8 @@ public class Champion {
         } else if (isTeamSelected) {
             availability = "TRADE";
         }
-//        return String.format("%s | %s : %s", availability, aramChange.name, aramChange);
-        return ansi().render(String.format("%-14s %-10s %n%s%n",aramChange.name, availability , aramChange)).toString();
+
+        return ansi().render(String.format("%-14s %-10s %n%s%n",aramChange.getName(), availability , aramChange)).toString();
     }
 
     @Override

@@ -3,6 +3,7 @@ package eu.time.aramchecker.console;
 import static org.fusesource.jansi.Ansi.ansi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +11,8 @@ public class ConsoleHandler {
     private static final int MAX_COLUMNS = 4;
 
     public void print(List<PrintAbleChampion> toPrint) {
+        boolean firstLine = true;
+        
         while (!toPrint.isEmpty()) {
             List<PrintAbleChampion> printBatch = getNextBatchToPrint(toPrint);
             int lineCount = getRequiredLineCount(printBatch);
@@ -19,21 +22,26 @@ public class ConsoleHandler {
                 String printString = printAbleChampion.getPrintString();
                 String[] lines = printString.split("\r\n");
 
-                for (int i = 0; i < lines.length; i++) {
+                for (int i = 0; i < lineCount; i++) {
                     lineBuilders[i].append("|   ").append(lines[i]);
                 }
             }
 
+            int maxLineLength = getMinLineLength(lineBuilders);
+
+            StringBuilder topBottomBorder = new StringBuilder(maxLineLength);
+            topBottomBorder.append(String.join("", Collections.nCopies(maxLineLength+1, "-")));
+            
+            if(firstLine) {
+                System.out.println(topBottomBorder);
+                firstLine = false;
+            }
             for (StringBuilder lineBuilder : lineBuilders) {
                 lineBuilder.append("|");
                 System.out.println(lineBuilder);
             }
 
-            int maxLineLength = getMinLineLength(lineBuilders);
-
-            StringBuilder bottomLine = new StringBuilder(maxLineLength);
-            bottomLine.append(String.join("", Collections.nCopies(maxLineLength, "-")));
-            System.out.println(bottomLine);
+            System.out.println(topBottomBorder);
         }
     }
 
@@ -55,7 +63,8 @@ public class ConsoleHandler {
         for (PrintAbleChampion printAbleChampion : toPrint) {
             String printString = printAbleChampion.getPrintString();
             String[] lines = printString.split("\r\n");
-            requiredLines = Math.max(requiredLines, lines.length);
+            int count = (int) Arrays.stream(lines).filter(line -> !line.isBlank()).count();
+            requiredLines = Math.max(requiredLines, count);
         }
 
         return requiredLines;

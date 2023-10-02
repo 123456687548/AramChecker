@@ -22,7 +22,7 @@ public class Parser {
 
             AramChange nextAramChange = getNextAramChange();
             if (nextAramChange != null) {
-                changes.put(nextAramChange.id, nextAramChange);
+                changes.put(nextAramChange.getId(), nextAramChange);
             }
             if (!findNextChampion()) { // no more champions in list
                 return changes;
@@ -47,7 +47,7 @@ public class Parser {
                     case "id" -> {
                         if (currentChampionId == null) {
                             currentChampionId = handleChampionId();
-                            aramChange.id = currentChampionId;
+                            aramChange.setId(currentChampionId);
                         } else {
                             return aramChange;
                         }
@@ -55,15 +55,15 @@ public class Parser {
                     case "apiname" -> {
                         if (currentChampionName == null) {
                             currentChampionName = handleChampionName();
-                            aramChange.name = currentChampionName;
+                            aramChange.setName(currentChampionName);
                         } else {
                             return aramChange;
                         }
                     }
                     case "aram" -> {
                         aramChange = handleAramChange();
-                        aramChange.id = currentChampionId;
-                        aramChange.name = currentChampionName;
+                        aramChange.setId(currentChampionId);
+                        aramChange.setName(currentChampionName);
                         return aramChange;
                     }
                 }
