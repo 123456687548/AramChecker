@@ -11,8 +11,8 @@ public class Team {
     public int obfuscatedSummonerId;
     public String puuid;
     public int selectedSkinId;
-    public int spell1Id;
-    public int spell2Id;
+//    public int spell1Id;
+//    public int spell2Id;
     public long summonerId;
     public int team;
     public int wardSkinId;

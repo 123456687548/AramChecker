@@ -8,24 +8,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class ConsoleHandler {
-    private static final int MAX_COLUMNS = 4;
+    private static final int MAX_COLUMNS = 5;
 
-    public void print(List<PrintAbleChampion> toPrint) {
+    public <T extends AbstactPrintAble> void print(List<T> toPrint) {
         boolean firstLine = true;
 
         while (!toPrint.isEmpty()) {
-            List<PrintAbleChampion> printBatch = getNextBatchToPrint(toPrint);
+            List<T> printBatch = getNextBatchToPrint(toPrint);
             int lineCount = getRequiredLineCount(printBatch);
             StringBuilder[] lineBuilders = createLineBuilder(lineCount);
 
             int columns = 0;
 
-            for (PrintAbleChampion printAbleChampion : printBatch) {
-                String printString = printAbleChampion.getPrintString();
+            int printAbleWidth = 0;
+            for (AbstactPrintAble printAble : printBatch) {
+                printAbleWidth = printAble.getMaxWidth();
+                String printString = printAble.getPrintString();
                 String[] lines = printString.split("\r\n");
 
                 for (int i = 0; i < lineCount; i++) {
-                    lineBuilders[i].append("|   ").append(lines[i]);
+                    lineBuilders[i].append("|").append(lines[i]);
                 }
                 columns++;
             }
@@ -33,7 +35,7 @@ public class ConsoleHandler {
             int maxLineLength = getMinLineLength(lineBuilders);
 
             StringBuilder topBottomBorder = new StringBuilder(maxLineLength);
-            topBottomBorder.append(String.join("", Collections.nCopies(31 * columns - columns + 1, "-")));
+            topBottomBorder.append(String.join("", Collections.nCopies(printAbleWidth * columns + columns + 1, "-")));
 
             if (firstLine) {
                 System.out.println(topBottomBorder);
@@ -48,8 +50,8 @@ public class ConsoleHandler {
         }
     }
 
-    private List<PrintAbleChampion> getNextBatchToPrint(List<PrintAbleChampion> toPrint) {
-        List<PrintAbleChampion> batch = new ArrayList<>();
+    private <T extends AbstactPrintAble> List<T> getNextBatchToPrint(List<T> toPrint) {
+        List<T> batch = new ArrayList<>();
 
         for (int i = 0; i < MAX_COLUMNS; i++) {
             if (!toPrint.isEmpty()) {
@@ -60,11 +62,11 @@ public class ConsoleHandler {
         return batch;
     }
 
-    private int getRequiredLineCount(List<PrintAbleChampion> toPrint) {
+    private <T extends AbstactPrintAble> int getRequiredLineCount(List<T> toPrint) {
         int requiredLines = 0;
 
-        for (PrintAbleChampion printAbleChampion : toPrint) {
-            String printString = printAbleChampion.getPrintString();
+        for (T printAble : toPrint) {
+            String printString = printAble.getPrintString();
             String[] lines = printString.split("\r\n");
             int count = (int) Arrays.stream(lines).filter(line -> !line.isBlank()).count();
             requiredLines = Math.max(requiredLines, count);

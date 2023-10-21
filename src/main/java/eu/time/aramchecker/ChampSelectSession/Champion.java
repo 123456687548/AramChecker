@@ -1,10 +1,6 @@
 package eu.time.aramchecker.ChampSelectSession;
 
-import static org.fusesource.jansi.Ansi.ansi;
-
 import java.util.Objects;
-
-import eu.time.aramchecker.lolwiki.AramChange;
 
 public class Champion {
     public int championId;
@@ -38,20 +34,6 @@ public class Champion {
 
     private static String getChampionName(int championId) {
         return "";
-    }
-    
-    public String getPrintString(AramChange aramChange) {
-        String availability = "NO AVAILABILITY?!";
-        
-        if (isSelected) {
-            availability = String.format("@|green %-10s|@", "SELECTED");
-        } else if (isBenched) {
-            availability = String.format("@|yellow %-10s|@", "BENCHED");
-        } else if (isTeamSelected) {
-            availability = String.format("@|red %-10s|@","TRADE");
-        }
-
-        return ansi().render(String.format("%-14s %s %n%s%n",aramChange.getName(), availability , aramChange)).toString();
     }
 
     @Override

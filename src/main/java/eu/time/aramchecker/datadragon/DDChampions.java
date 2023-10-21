@@ -12,7 +12,7 @@ public class DDChampions {
     public String version;
     public Data data;
 
-    public Map<Integer, Champion> getChampionList() {
+    public Map<Integer, Champion> getChampionMap() {
         Map<Integer, Champion> result = new HashMap<>();
 
         Field[] declaredFields = data.getClass().getDeclaredFields();
@@ -22,6 +22,25 @@ public class DDChampions {
                 Champion champion = (Champion) declaredField.get(data);
                 if(champion != null) {
                     result.put(Integer.parseInt(champion.key), champion);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return result;
+    }
+
+    public Map<String, Champion> getChampionNameMap() {
+        Map<String, Champion> result = new HashMap<>();
+
+        Field[] declaredFields = data.getClass().getDeclaredFields();
+
+        for (Field declaredField : declaredFields) {
+            try {
+                Champion champion = (Champion) declaredField.get(data);
+                if(champion != null) {
+                    result.put(champion.name, champion);
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);

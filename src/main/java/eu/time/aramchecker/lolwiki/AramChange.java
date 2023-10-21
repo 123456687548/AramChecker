@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AramChange {
+    private static final int ATTRIBUTE_MIN_WIDTH = 14;
+    
     private double id;
     private String name;
     
@@ -19,8 +21,7 @@ public class AramChange {
     public Double energy_regen;
     public Double attack_speed;
 
-    @Override
-    public String toString() {
+    public String getPrintString(int parentWidth) {
         Class<?> clazz = this.getClass();
 
         Field[] declaredFields = clazz.getFields();
@@ -32,18 +33,18 @@ public class AramChange {
             String fieldName = field.getName();
             Double fieldValue = null;
             try {
-                fieldValue = (Double)field.get(this);
+                fieldValue = (Double) field.get(this);
             } catch (IllegalAccessException e) {
-                emptyFields.put(fieldName, String.format("%-26s%n", ""));
+                emptyFields.put(fieldName, String.format("%-" + parentWidth + "s%n", ""));
             } finally {
                 if (fieldValue != null) {
                     if (fieldName.equals("dmg_taken")) {
-                        setFields.add(getColoredString(fieldName, fieldValue, true));
+                        setFields.add(getColoredString(fieldName, fieldValue, parentWidth, true));
                     } else {
-                        setFields.add(getColoredString(fieldName, fieldValue));
+                        setFields.add(getColoredString(fieldName, fieldValue, parentWidth));
                     }
                 } else {
-                    emptyFields.put(fieldName, String.format("%-26s%n", ""));
+                    emptyFields.put(fieldName, String.format("%-" + parentWidth + "s%n", ""));
                 }
             }
         }
@@ -55,34 +56,36 @@ public class AramChange {
 
         return result.toString();
     }
-
-    private String getColoredString(String valueName, Double value) {
-        return getColoredString(valueName, value, false);
+    
+    private String getColoredString(String valueName, Double value, int parentWidth) {
+        return getColoredString(valueName, value, parentWidth, false);
     }
 
-    private String getColoredString(String valueName, Double value, boolean invert) {
+    private String getColoredString(String valueName, Double value, int parentWidth, boolean invert) {
         if (value == null) {
-            return String.format("%-26s%n", "");
+            return String.format("%-" + parentWidth + "s%n", "");
         }
 
         if ((value < 0 || value < 1) && !invert) {
-            return getNerfString(valueName, value);
+            return getNerfString(valueName, value, parentWidth);
         }
-        return getBuffString(valueName, value);
+        return getBuffString(valueName, value, parentWidth);
     }
 
-    private String getNerfString(String valueName, Double value) {
+    private String getNerfString(String valueName, Double value, int parentWidth) {
         if (value == null) {
-            return String.format("%-24s%n", "");
+            return String.format("%-" + parentWidth + "s%n", "");
         }
-        return String.format("%-14s: @|red %-10s|@%n", valueName, value);
+        int valueWidth = parentWidth - ATTRIBUTE_MIN_WIDTH - 5;
+        return String.format("   %-" + ATTRIBUTE_MIN_WIDTH + "s: @|red %-" + valueWidth + "s|@%n", valueName, value);
     }
 
-    private String getBuffString(String valueName, Double value) {
+    private String getBuffString(String valueName, Double value, int parentWidth) {
         if (value == null) {
-            return String.format("%-24s", "");
+            return String.format("%-" + parentWidth + "s%n", "");
         }
-        return String.format("%-14s: @|green %-10s|@%n", valueName, value);
+        int valueWidth = parentWidth - ATTRIBUTE_MIN_WIDTH - 5;
+        return String.format("   %-" + ATTRIBUTE_MIN_WIDTH + "s: @|green %-" + valueWidth + "s|@%n", valueName, value);
     }
 
     public double getId() {
